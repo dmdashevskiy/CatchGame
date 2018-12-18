@@ -2,7 +2,10 @@
 public class GameRuntime {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		GameMap CatchMap = new GameMap(10);
+		
+		CatchMap.ShowOnConsole();		
 
 	}
 
