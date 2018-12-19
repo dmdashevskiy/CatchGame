@@ -12,8 +12,8 @@ class ThingOnMap {
 		this.CoordY = coordY;		
 	};
 
-	void move(int Direction) {
-		
+	void Move(int DirectionX, int DirectionY) {
+		CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY + DirectionY);		
 	}
 
 	public int getCoordX() {
