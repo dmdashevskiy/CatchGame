@@ -30,7 +30,16 @@ class ThingOnMap {
 
 	public void setCatchMap(GameMap catchMap) {
 		CatchMap = catchMap;
-	}	
+	}
+
+	public void setCoordX(int coordX) {
+		CoordX = coordX;
+	}
+
+	public void setCoordY(int coordY) {
+		CoordY = coordY;
+	}
+	
 	
 }
 

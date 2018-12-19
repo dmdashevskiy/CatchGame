@@ -9,7 +9,7 @@ abstract class Command {
 		//		   2			   down
 		
 		if(Code.equals("8")) {
-			Thing.Move(1, 0);			
+			Thing.Move(-1, 0);			
 		}
 		
 		if(Code.equals("4")) {
@@ -21,7 +21,7 @@ abstract class Command {
 		}
 		
 		if(Code.equals("2")) {
-			Thing.Move(-1, 0);			
+			Thing.Move(1, 0);			
 		}
 		
 	}	
