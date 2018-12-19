@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class GameMap {
 	
-	protected char[][] CoordinateValue;
+	private char[][] CoordinateValue;
 
 	GameMap(int Size) {		
 		this.CoordinateValue = new char[Size][Size];
@@ -21,5 +21,10 @@ public class GameMap {
 			System.out.println("");
 		};
 	};
+	
+	void EmbarkThing(ThingOnMap Thing) {
+		CoordinateValue[Thing.getCoordX()][Thing.getCoordY()] = Thing.getSimbol();
+		Thing.setCatchMap(this);
+	}
 	
 }

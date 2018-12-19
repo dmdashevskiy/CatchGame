@@ -7,26 +7,38 @@ class ThingOnMap {
 	
 	
 	
-	ThingOnMap(int coordX, int coordY, GameMap catchMap) {		
+	ThingOnMap(int coordX, int coordY) {		
 		this.CoordX = coordX;
-		this.CoordY = coordY;
-		this.CatchMap = catchMap;
+		this.CoordY = coordY;		
 	};
 
 	void move(int Direction) {
 		
-	};
+	}
+
+	public int getCoordX() {
+		return CoordX;
+	}
+
+	public int getCoordY() {
+		return CoordY;
+	}
+		
+	public char getSimbol() {
+		return Simbol;
+	}
+
+	public void setCatchMap(GameMap catchMap) {
+		CatchMap = catchMap;
+	}	
 	
 }
 
 class Catсher extends ThingOnMap{
 
-	Catсher(int coordX, int coordY, GameMap catchMap) {
-		super(coordX, coordY, catchMap);
-		this.Simbol = '©';
-		CatchMap.CoordinateValue[coordX][coordY] = this.Simbol;
-	}
-
-	
+	Catсher(int coordX, int coordY) {
+		super(coordX, coordY);
+		this.Simbol = '©';		
+	}	
 	
 }
