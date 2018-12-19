@@ -16,8 +16,7 @@ public class GameRuntime {
 			
 			String Input = in.nextLine();
 			Command.Execute(Input, EntityCatcher);			
-			
-			
+						
 			CatchMap.ShowOnConsole();
 			
 			if(Input.equals("0")) break;
