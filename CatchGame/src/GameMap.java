@@ -33,10 +33,10 @@ public class GameMap {
 		CoordinateValue[Thing.getCoordX()][Thing.getCoordY()] = EMPTY_FIELD;
 		
 		if(TargetCoordX < 0) TargetCoordX = 0;
-		if(TargetCoordX == CoordinateValue.length) TargetCoordX = CoordinateValue.length - 1;
+		if(TargetCoordX >= CoordinateValue.length) TargetCoordX = CoordinateValue.length - 1;
 		
 		if(TargetCoordY < 0) TargetCoordY = 0;
-		if(TargetCoordY == CoordinateValue[0].length) TargetCoordY = CoordinateValue[0].length - 1;		
+		if(TargetCoordY >= CoordinateValue[0].length) TargetCoordY = CoordinateValue[0].length - 1;		
 		
 		CoordinateValue[TargetCoordX][TargetCoordY] = Thing.getSimbol();
 		Thing.setCoordX(TargetCoordX);

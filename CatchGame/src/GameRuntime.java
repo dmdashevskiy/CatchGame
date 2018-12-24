@@ -25,10 +25,10 @@ public class GameRuntime {
 		
 		GameMap CatchMap = new GameMap(MapSize);
 		ThingOnMap EntityCatcherP1 = new Catñher(0, 0);
-		ThingOnMap EntityCatcherP2 = new Catñher(MapSize - 1, MapSize - 1);
+//		ThingOnMap EntityCatcherP2 = new Catñher(MapSize - 1, MapSize - 1);
 		
 		CatchMap.EmbarkThing(EntityCatcherP1);
-		CatchMap.EmbarkThing(EntityCatcherP2);
+//		CatchMap.EmbarkThing(EntityCatcherP2);
 		CatchMap.ShowOnConsole();
 		
 		
@@ -39,9 +39,9 @@ public class GameRuntime {
 			Command.Execute(Input, EntityCatcherP1);						
 			CatchMap.ShowOnConsole();
 			
-			Input = in.nextLine();
-			Command.Execute(Input, EntityCatcherP2);						
-			CatchMap.ShowOnConsole();
+//			Input = in.nextLine();
+//			Command.Execute(Input, EntityCatcherP2);						
+//			CatchMap.ShowOnConsole();
 			
 			if(Input.equals("0")) break;
 			
