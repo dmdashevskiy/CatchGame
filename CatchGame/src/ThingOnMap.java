@@ -1,10 +1,12 @@
+import java.sql.Array;
+import java.util.Iterator;
 
 class ThingOnMap {
 	
 	protected int CoordX, CoordY;
 	protected GameMap CatchMap;
 	protected char Simbol;
-	
+	protected boolean CanBeCatch = false;
 	
 	
 	ThingOnMap(int coordX, int coordY) {		
@@ -38,6 +40,10 @@ class ThingOnMap {
 
 	public void setCoordY(int coordY) {
 		CoordY = coordY;
+	}
+
+	public boolean isCanBeCatch() {
+		return CanBeCatch;
 	}
 	
 	
@@ -76,7 +82,18 @@ class Catсher extends ThingOnMap{
 		
 		for(int i = Speed; i > 0 ; i--) {
 			if(DirectionX != 0) CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY);
-			if(DirectionY != 0) CatchMap.RelocateThing(this, CoordX, CoordY + DirectionY);
+			if(DirectionY != 0) CatchMap.RelocateThing(this, CoordX, CoordY + DirectionY);			
+			
+			//search Runaway nearby
+			ThingOnMap[] SurroundThings = CatchMap.GetArrayOfSurroundThings(CoordX, CoordY);
+			for (int j = 0; j < SurroundThings.length; j++) {
+				if(SurroundThings[j].isCanBeCatch()) {
+					System.out.println("Попался!");
+					//kill Runaway
+					CatchMap.KillThing(SurroundThings[j]);
+				}
+			}
+			
 		}
 		
 		
@@ -91,6 +108,7 @@ class Runaway extends ThingOnMap{
 	
 	Runaway(int coordX, int coordY) {
 		super(coordX, coordY);
+		this.CanBeCatch = true;
 		this.Simbol = '®';
 		
 	}	

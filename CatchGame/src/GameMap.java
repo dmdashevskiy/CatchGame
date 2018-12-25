@@ -44,4 +44,27 @@ public class GameMap {
 		
 	}
 	
+	ThingOnMap[] GetArrayOfSurroundThings(int CoordX, int CoordY) {
+		
+		ThingOnMap[] ThingsArray = new ThingOnMap[8];
+		Arrays.fill(ThingsArray, new EmptyField(0, 0));
+		int i = 0;
+		
+		for(int x = -1; x < 2; x++) {
+			for(int y = -1; y < 2; y++) {
+				if((CoordX + x) <= (CoordinateValue.length - 1)
+					&& (CoordX + x) >= 0
+					&& (CoordY + y) <= (CoordinateValue[0].length - 1)
+					&& (CoordY + y) >= 0
+					&& (x != 0 | y != 0)) ThingsArray[i++] = CoordinateValue[CoordX + x][CoordY + y];
+			}
+		}
+		
+		return ThingsArray;		
+	}
+	
+	void KillThing(ThingOnMap Thing) {
+		CoordinateValue[Thing.getCoordX()][Thing.getCoordY()] = new EmptyField(0, 0);
+	}
+	
 }
