@@ -59,7 +59,39 @@ class Catсher extends ThingOnMap{
 	
 	Catсher(int coordX, int coordY) {
 		super(coordX, coordY);
-		this.Simbol = '©';
+		this.Simbol = '¤';
+		
+	}	
+	
+	void Move(int DirectionX, int DirectionY) {
+		
+		boolean MovementContinuesX = (DirectionX != 0 && DirectionX == PrevDirectionX);
+		boolean MovementContinuesY = (DirectionY != 0 && DirectionY == PrevDirectionY);
+		
+		if(MovementContinuesX || MovementContinuesY) Speed++;
+		else Speed = 1;
+		
+		PrevDirectionX = DirectionX;
+		PrevDirectionY = DirectionY;		
+		
+		for(int i = Speed; i > 0 ; i--) {
+			if(DirectionX != 0) CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY);
+			if(DirectionY != 0) CatchMap.RelocateThing(this, CoordX, CoordY + DirectionY);
+		}
+		
+		
+	}
+	
+}
+
+class Runaway extends ThingOnMap{
+	
+	protected int PrevDirectionX, PrevDirectionY = 0;	
+	protected int Speed = 1;
+	
+	Runaway(int coordX, int coordY) {
+		super(coordX, coordY);
+		this.Simbol = '®';
 		
 	}	
 	

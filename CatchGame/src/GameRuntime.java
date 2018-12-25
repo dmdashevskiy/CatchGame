@@ -24,24 +24,24 @@ public class GameRuntime {
 		else MapSize = InputInt;	
 		
 		GameMap CatchMap = new GameMap(MapSize);
-		ThingOnMap EntityCatcherP1 = new Catсher(0, 0);
-//		ThingOnMap EntityCatcherP2 = new Catсher(MapSize - 1, MapSize - 1);
+		ThingOnMap EntityCatcher = new Catсher(0, 0);
+		ThingOnMap EntityRunaway = new Runaway(MapSize - 1, MapSize - 1);
 		
-		CatchMap.EmbarkThing(EntityCatcherP1);
-//		CatchMap.EmbarkThing(EntityCatcherP2);
+		CatchMap.EmbarkThing(EntityCatcher);
+		CatchMap.EmbarkThing(EntityRunaway);
 		CatchMap.ShowOnConsole();
-		
-		
-		
+				
 		while (true) {
 			
+			System.out.println("Ходит ловец");
 			Input = in.nextLine();
-			Command.Execute(Input, EntityCatcherP1);						
+			Command.Execute(Input, EntityCatcher);						
 			CatchMap.ShowOnConsole();
 			
-//			Input = in.nextLine();
-//			Command.Execute(Input, EntityCatcherP2);						
-//			CatchMap.ShowOnConsole();
+			System.out.println("Ходит беглец");
+			Input = in.nextLine();
+			Command.Execute(Input, EntityRunaway);						
+			CatchMap.ShowOnConsole();
 			
 			if(Input.equals("0")) break;
 			
