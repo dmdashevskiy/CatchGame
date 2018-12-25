@@ -43,9 +43,19 @@ class ThingOnMap {
 	
 }
 
+class EmptyField extends ThingOnMap{
+	
+	EmptyField(int coordX, int coordY) {
+		super(coordX, coordY);
+		this.Simbol = '·';
+		
+	}	
+}
+
 class Catсher extends ThingOnMap{
 	
-	protected int Speed, PrevDirectionX, PrevDirectionY = 0;	
+	protected int PrevDirectionX, PrevDirectionY = 0;	
+	protected int Speed = 1;
 	
 	Catсher(int coordX, int coordY) {
 		super(coordX, coordY);
@@ -55,17 +65,20 @@ class Catсher extends ThingOnMap{
 	
 	void Move(int DirectionX, int DirectionY) {
 		
-		if((DirectionX != 0 && DirectionX == PrevDirectionX) || (DirectionY != 0 && DirectionY == PrevDirectionY)) Speed++;
-		else Speed = 0;
+		boolean MovementContinuesX = (DirectionX != 0 && DirectionX == PrevDirectionX);
+		boolean MovementContinuesY = (DirectionY != 0 && DirectionY == PrevDirectionY);
+		
+		if(MovementContinuesX || MovementContinuesY) Speed++;
+		else Speed = 1;
 		
 		PrevDirectionX = DirectionX;
 		PrevDirectionY = DirectionY;		
 		
-		if(DirectionX > 0 && DirectionX == PrevDirectionX)	CatchMap.RelocateThing(this, CoordX + DirectionX + Speed, CoordY + DirectionY);
-		else if(DirectionY > 0 && DirectionY == PrevDirectionY)	CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY + DirectionY + Speed);
-		else if(DirectionX < 0 && DirectionX == PrevDirectionX)	CatchMap.RelocateThing(this, CoordX + DirectionX - Speed, CoordY + DirectionY);
-		else if(DirectionY < 0 && DirectionY == PrevDirectionY)	CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY + DirectionY - Speed);
-		else CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY + DirectionY);
+		for(int i = Speed; i > 0 ; i--) {
+			if(DirectionX != 0) CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY);
+			if(DirectionY != 0) CatchMap.RelocateThing(this, CoordX, CoordY + DirectionY);
+		}
+		
 		
 	}
 	

@@ -1,16 +1,16 @@
 import java.util.Arrays;
 
 public class GameMap {
+		
+	private ThingOnMap[][] CoordinateValue;
 	
-	final char EMPTY_FIELD = '·';
+	ThingOnMap Empty = new EmptyField(0, 0);
 	
-	private char[][] CoordinateValue;
-
 	GameMap(int Size) {		
-		this.CoordinateValue = new char[Size][Size];
+		this.CoordinateValue = new ThingOnMap[Size][Size];
 		
 		for(int i = 0; i < CoordinateValue.length; i++) {
-			Arrays.fill(this.CoordinateValue[i], EMPTY_FIELD);
+			Arrays.fill(this.CoordinateValue[i], Empty);
 		}
 	}
 	
@@ -18,19 +18,19 @@ public class GameMap {
 		
 		for(int i = 0; i < CoordinateValue.length; i++) {
 			for(int j = 0; j < CoordinateValue[i].length; j++) {
-				System.out.print(CoordinateValue[i][j] + "  ");
+				System.out.print(CoordinateValue[i][j].getSimbol() + "  ");
 			};
 			System.out.println("");
 		};
 	};
 	
 	void EmbarkThing(ThingOnMap Thing) {
-		CoordinateValue[Thing.getCoordX()][Thing.getCoordY()] = Thing.getSimbol();
+		CoordinateValue[Thing.getCoordX()][Thing.getCoordY()] = Thing;
 		Thing.setCatchMap(this);
 	}
 	
 	void RelocateThing(ThingOnMap Thing, int TargetCoordX, int TargetCoordY) {
-		CoordinateValue[Thing.getCoordX()][Thing.getCoordY()] = EMPTY_FIELD;
+		CoordinateValue[Thing.getCoordX()][Thing.getCoordY()] = new EmptyField(0, 0);
 		
 		if(TargetCoordX < 0) TargetCoordX = 0;
 		if(TargetCoordX >= CoordinateValue.length) TargetCoordX = CoordinateValue.length - 1;
@@ -38,7 +38,7 @@ public class GameMap {
 		if(TargetCoordY < 0) TargetCoordY = 0;
 		if(TargetCoordY >= CoordinateValue[0].length) TargetCoordY = CoordinateValue[0].length - 1;		
 		
-		CoordinateValue[TargetCoordX][TargetCoordY] = Thing.getSimbol();
+		CoordinateValue[TargetCoordX][TargetCoordY] = Thing;
 		Thing.setCoordX(TargetCoordX);
 		Thing.setCoordY(TargetCoordY);
 		
