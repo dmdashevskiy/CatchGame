@@ -1,49 +1,43 @@
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Scanner;
+import java.util.concurrent.ArrayBlockingQueue;
+
+import javax.management.Query;
 
 public class GameRuntime {
 
 	public static void main(String[] args){
 		
-		
-		
-		Scanner in = new Scanner(System.in);
-		
-		System.out.println("Введите размер поля - от 4 до 20");
-		String Input = in.nextLine();		
-		Integer InputInt;		
-		try {
-			InputInt = Integer.valueOf(Input);	            
-	    }catch (NumberFormatException e) {  
-	        System.err.println("Неверный формат ввода!");
-	        return;
-	    }
-		
-		int MapSize;
-		if(InputInt < 4) MapSize = 4;
-		else if(InputInt > 20) MapSize = 20;
-		else MapSize = InputInt;	
-		
-		GameMap CatchMap = new GameMap(MapSize);
+		final int MAP_SIZE = 8;
+						
+		GameMap CatchMap = new GameMap(MAP_SIZE);
 		ThingOnMap EntityCatcher = new Catсher(0, 0);
-		ThingOnMap EntityRunaway = new Runaway(MapSize - 1, MapSize - 1);
+		ThingOnMap EntityRunaway = new Runaway(MAP_SIZE - 1, MAP_SIZE - 1);
 		
 		CatchMap.EmbarkThing(EntityCatcher);
 		CatchMap.EmbarkThing(EntityRunaway);
 		CatchMap.ShowOnConsole();
+		
+		Queue<ThingOnMap> TurnQueue = new ArrayBlockingQueue<>(20);
+		
+		while (TurnQueue.offer(EntityCatcher) & TurnQueue.offer(EntityRunaway));		
+		
+		Scanner in = new Scanner(System.in);
+		String Input;
+		
+		ThingOnMap Walker = TurnQueue.poll();
 				
-		while (true) {
+		while (Walker != null) {
 			
-			System.out.println("Ходит ловец");
+			if(Walker.isAlive()) {
 			Input = in.nextLine();
-			Command.Execute(Input, EntityCatcher);						
-			CatchMap.ShowOnConsole();
-			
-			System.out.println("Ходит беглец");
-			Input = in.nextLine();
-			Command.Execute(Input, EntityRunaway);						
-			CatchMap.ShowOnConsole();
-			
+			Command.Execute(Input, Walker);						
+			CatchMap.ShowOnConsole();			
 			if(Input.equals("0")) break;
+			}
+			
+			Walker = TurnQueue.poll();		
 			
 		}		
 

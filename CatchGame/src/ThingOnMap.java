@@ -4,7 +4,8 @@ class ThingOnMap {
 	protected int CoordX, CoordY;
 	protected GameMap CatchMap;
 	protected char Simbol;
-	protected boolean CanBeCatch = false;
+	protected boolean CanBeCatch; 
+	protected boolean Alive;
 	
 	
 	ThingOnMap(int coordX, int coordY) {		
@@ -43,8 +44,10 @@ class ThingOnMap {
 	public boolean isCanBeCatch() {
 		return CanBeCatch;
 	}
-	
-	
+
+	public boolean isAlive() {
+		return Alive;
+	}	
 }
 
 class EmptyField extends ThingOnMap{
@@ -64,6 +67,7 @@ class Catсher extends ThingOnMap{
 	Catсher(int coordX, int coordY) {
 		super(coordX, coordY);
 		this.Simbol = '¤';
+		this.Alive = true;
 		
 	}	
 	
@@ -79,8 +83,8 @@ class Catсher extends ThingOnMap{
 		PrevDirectionY = DirectionY;		
 		
 		for(int i = Speed; i > 0 ; i--) {
-			if(DirectionX != 0) CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY);
-			if(DirectionY != 0) CatchMap.RelocateThing(this, CoordX, CoordY + DirectionY);			
+			if(DirectionX != 0) if(CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY) == false) break;
+			if(DirectionY != 0)  if(CatchMap.RelocateThing(this, CoordX, CoordY + DirectionY) == false) break;			
 			
 			//search Runaway nearby
 			ThingOnMap[] SurroundThings = CatchMap.GetArrayOfSurroundThings(CoordX, CoordY);
@@ -88,7 +92,8 @@ class Catсher extends ThingOnMap{
 				if(SurroundThings[j].isCanBeCatch()) {
 					System.out.println("Попался!");
 					//kill Runaway
-					CatchMap.KillThing(SurroundThings[j]);
+					CatchMap.EraseThing(SurroundThings[j]);
+					SurroundThings[j].Alive = false;
 				}
 			}
 			
@@ -108,6 +113,7 @@ class Runaway extends ThingOnMap{
 		super(coordX, coordY);
 		this.CanBeCatch = true;
 		this.Simbol = '®';
+		this.Alive = true;
 		
 	}	
 	
@@ -123,8 +129,8 @@ class Runaway extends ThingOnMap{
 		PrevDirectionY = DirectionY;		
 		
 		for(int i = Speed; i > 0 ; i--) {
-			if(DirectionX != 0) CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY);
-			if(DirectionY != 0) CatchMap.RelocateThing(this, CoordX, CoordY + DirectionY);
+			if(DirectionX != 0) if(CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY) == false) break;
+			if(DirectionY != 0)  if(CatchMap.RelocateThing(this, CoordX, CoordY + DirectionY) == false) break;			
 		}
 		
 		

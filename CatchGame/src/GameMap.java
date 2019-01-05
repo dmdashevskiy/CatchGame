@@ -29,18 +29,21 @@ public class GameMap {
 		Thing.setCatchMap(this);
 	}
 	
-	void RelocateThing(ThingOnMap Thing, int TargetCoordX, int TargetCoordY) {
+	boolean RelocateThing(ThingOnMap Thing, int TargetCoordX, int TargetCoordY) {
+				
+		if(TargetCoordX < 0 
+			|| TargetCoordX >= CoordinateValue.length
+			|| TargetCoordY < 0
+			|| TargetCoordY >= CoordinateValue[0].length
+			|| !(CoordinateValue[TargetCoordX][TargetCoordY] instanceof EmptyField)) return false;			
+		
+		
 		CoordinateValue[Thing.getCoordX()][Thing.getCoordY()] = new EmptyField(0, 0);
-		
-		if(TargetCoordX < 0) TargetCoordX = 0;
-		if(TargetCoordX >= CoordinateValue.length) TargetCoordX = CoordinateValue.length - 1;
-		
-		if(TargetCoordY < 0) TargetCoordY = 0;
-		if(TargetCoordY >= CoordinateValue[0].length) TargetCoordY = CoordinateValue[0].length - 1;		
-		
 		CoordinateValue[TargetCoordX][TargetCoordY] = Thing;
 		Thing.setCoordX(TargetCoordX);
 		Thing.setCoordY(TargetCoordY);
+		
+		return true;
 		
 	}
 	
@@ -61,9 +64,9 @@ public class GameMap {
 		}
 		
 		return ThingsArray;		
-	}
+	}	
 	
-	void KillThing(ThingOnMap Thing) {
+	void EraseThing(ThingOnMap Thing) {
 		CoordinateValue[Thing.getCoordX()][Thing.getCoordY()] = new EmptyField(0, 0);
 	}
 	
