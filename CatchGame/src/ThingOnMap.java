@@ -1,3 +1,4 @@
+import java.util.Random;
 
 class ThingOnMap {
 	
@@ -11,6 +12,16 @@ class ThingOnMap {
 	ThingOnMap(int coordX, int coordY) {		
 		this.CoordX = coordX;
 		this.CoordY = coordY;		
+	};
+	
+	ThingOnMap(int MapSize) {		
+		
+		Random RndX, RndY;		
+		RndX = new Random();
+		RndY = new Random();
+		
+		this.CoordX = RndX.nextInt(MapSize);
+		this.CoordY = RndY.nextInt(MapSize);		
 	};
 
 	void Move(int DirectionX, int DirectionY) {
@@ -71,6 +82,12 @@ class Catсher extends ThingOnMap{
 		
 	}	
 	
+	Catсher(int MapSize) {
+		super(MapSize);
+		this.Simbol = '¤';
+		this.Alive = true;
+	}
+
 	void Move(int DirectionX, int DirectionY) {
 		
 		boolean MovementContinuesX = (DirectionX != 0 && DirectionX == PrevDirectionX);
@@ -115,7 +132,14 @@ class Runaway extends ThingOnMap{
 		this.Simbol = '®';
 		this.Alive = true;
 		
-	}	
+	}
+	
+	Runaway(int MapSize) {
+		super(MapSize);
+		this.CanBeCatch = true;
+		this.Simbol = '®';
+		this.Alive = true;
+	}
 	
 	void Move(int DirectionX, int DirectionY) {
 		

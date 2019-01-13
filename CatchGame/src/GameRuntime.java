@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Scanner;
@@ -9,19 +11,26 @@ public class GameRuntime {
 
 	public static void main(String[] args){
 		
-		final int MAP_SIZE = 8;
-						
-		GameMap CatchMap = new GameMap(MAP_SIZE);
-		ThingOnMap EntityCatcher = new Catñher(0, 0);
-		ThingOnMap EntityRunaway = new Runaway(MAP_SIZE - 1, MAP_SIZE - 1);
+		final int MAP_SIZE = 10;
+		final int CACHER_QUANTITY = 2;
+		final int RUNAWAY_QUANTITY = 3;
+		final int TURNS_QUANTITY = 6;
 		
-		CatchMap.EmbarkThing(EntityCatcher);
-		CatchMap.EmbarkThing(EntityRunaway);
+		
+		ArrayList<ThingOnMap> EntityList = new ArrayList<ThingOnMap>();
+		GameMap CatchMap = new GameMap(MAP_SIZE);		
+		
+		for (int i = 0; i < CACHER_QUANTITY; i++) EntityList.add(new Catñher(MAP_SIZE));
+		for (int i = 0; i < RUNAWAY_QUANTITY; i++) EntityList.add(new Runaway(MAP_SIZE));
+		
+		for(ThingOnMap  Embarker: EntityList) CatchMap.EmbarkThing(Embarker);		
 		CatchMap.ShowOnConsole();
+				
+		Queue<ThingOnMap> TurnQueue = new ArrayBlockingQueue<>(TURNS_QUANTITY * EntityList.size());
 		
-		Queue<ThingOnMap> TurnQueue = new ArrayBlockingQueue<>(20);
-		
-		while (TurnQueue.offer(EntityCatcher) & TurnQueue.offer(EntityRunaway));		
+		for (int i = 0; i < TURNS_QUANTITY; i++) {
+			for(ThingOnMap  Embarker: EntityList) TurnQueue.offer(Embarker); 
+		}	
 		
 		Scanner in = new Scanner(System.in);
 		String Input;
