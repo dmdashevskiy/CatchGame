@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -12,14 +10,14 @@ public class GameRuntime {
 	public static void main(String[] args){
 		
 		final int MAP_SIZE = 10;
-		final int CACHER_QUANTITY = 2;
-		final int RUNAWAY_QUANTITY = 3;
-		final int TURNS_QUANTITY = 6;
+		final int CACHER_QUANTITY = 1;
+		final int RUNAWAY_QUANTITY = 2;
+		final int TURNS_QUANTITY = 8;
 		
 		
 		ArrayList<ThingOnMap> EntityList = new ArrayList<ThingOnMap>();
 		GameMap CatchMap = new GameMap(MAP_SIZE);		
-		
+
 		for (int i = 0; i < CACHER_QUANTITY; i++) EntityList.add(new Catñher(MAP_SIZE));
 		for (int i = 0; i < RUNAWAY_QUANTITY; i++) EntityList.add(new Runaway(MAP_SIZE));
 		

@@ -25,7 +25,11 @@ class ThingOnMap {
 	};
 
 	void Move(int DirectionX, int DirectionY) {
-		CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY + DirectionY);		
+		CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY + DirectionY);	
+		DoEndOfMoveEventActions();
+	}
+	
+	void DoEndOfMoveEventActions(){		
 	}
 
 	public int getCoordX() {
@@ -61,6 +65,7 @@ class ThingOnMap {
 	}	
 }
 
+
 class EmptyField extends ThingOnMap{
 	
 	EmptyField(int coordX, int coordY) {
@@ -70,10 +75,42 @@ class EmptyField extends ThingOnMap{
 	}	
 }
 
-class Catсher extends ThingOnMap{
-	
+class Actor extends ThingOnMap{
+
 	protected int PrevDirectionX, PrevDirectionY = 0;	
 	protected int Speed = 1;
+	
+	Actor(int coordX, int coordY) {
+		super(coordX, coordY);
+		// TODO Auto-generated constructor stub
+	}
+
+	Actor(int MapSize) {
+		super(MapSize);
+		// TODO Auto-generated constructor stub
+	}
+	
+	void Move(int DirectionX, int DirectionY) {
+			
+			boolean MovementContinuesX = (DirectionX != 0 && DirectionX == PrevDirectionX);
+			boolean MovementContinuesY = (DirectionY != 0 && DirectionY == PrevDirectionY);
+			
+			if(MovementContinuesX || MovementContinuesY) Speed++;
+			else Speed = 1;
+			
+			PrevDirectionX = DirectionX;
+			PrevDirectionY = DirectionY;		
+			
+			for(int i = Speed; i > 0 ; i--) {
+				if(DirectionX != 0) if(CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY) == false) break;
+				if(DirectionY != 0)  if(CatchMap.RelocateThing(this, CoordX, CoordY + DirectionY) == false) break;				
+				DoEndOfMoveEventActions();
+			}			
+		}
+	
+}
+
+class Catсher extends Actor{
 	
 	Catсher(int coordX, int coordY) {
 		super(coordX, coordY);
@@ -87,41 +124,25 @@ class Catсher extends ThingOnMap{
 		this.Simbol = '¤';
 		this.Alive = true;
 	}
-
-	void Move(int DirectionX, int DirectionY) {
-		
-		boolean MovementContinuesX = (DirectionX != 0 && DirectionX == PrevDirectionX);
-		boolean MovementContinuesY = (DirectionY != 0 && DirectionY == PrevDirectionY);
-		
-		if(MovementContinuesX || MovementContinuesY) Speed++;
-		else Speed = 1;
-		
-		PrevDirectionX = DirectionX;
-		PrevDirectionY = DirectionY;		
-		
-		for(int i = Speed; i > 0 ; i--) {
-			if(DirectionX != 0) if(CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY) == false) break;
-			if(DirectionY != 0)  if(CatchMap.RelocateThing(this, CoordX, CoordY + DirectionY) == false) break;			
-			
-			//search Runaway nearby
-			ThingOnMap[] SurroundThings = CatchMap.GetArrayOfSurroundThings(CoordX, CoordY);
-			for (int j = 0; j < SurroundThings.length; j++) {
-				if(SurroundThings[j].isCanBeCatch()) {
-					System.out.println("Попался!");
-					//kill Runaway
-					CatchMap.EraseThing(SurroundThings[j]);
-					SurroundThings[j].Alive = false;
-				}
+	
+	void DoEndOfMoveEventActions(){		
+	
+		//search Runaway nearby
+		ThingOnMap[] SurroundThings = CatchMap.GetArrayOfSurroundThings(CoordX, CoordY);
+		for (int j = 0; j < SurroundThings.length; j++) {
+			if(SurroundThings[j].isCanBeCatch()) {
+				System.out.println("Попался!");
+				//kill Runaway
+				CatchMap.EraseThing(SurroundThings[j]);
+				SurroundThings[j].Alive = false;					
 			}
-			
 		}
-		
-		
+	
 	}
 	
 }
 
-class Runaway extends ThingOnMap{
+class Runaway extends Actor{
 	
 	protected int PrevDirectionX, PrevDirectionY = 0;	
 	protected int Speed = 1;
@@ -139,25 +160,6 @@ class Runaway extends ThingOnMap{
 		this.CanBeCatch = true;
 		this.Simbol = '®';
 		this.Alive = true;
-	}
-	
-	void Move(int DirectionX, int DirectionY) {
-		
-		boolean MovementContinuesX = (DirectionX != 0 && DirectionX == PrevDirectionX);
-		boolean MovementContinuesY = (DirectionY != 0 && DirectionY == PrevDirectionY);
-		
-		if(MovementContinuesX || MovementContinuesY) Speed++;
-		else Speed = 1;
-		
-		PrevDirectionX = DirectionX;
-		PrevDirectionY = DirectionY;		
-		
-		for(int i = Speed; i > 0 ; i--) {
-			if(DirectionX != 0) if(CatchMap.RelocateThing(this, CoordX + DirectionX, CoordY) == false) break;
-			if(DirectionY != 0)  if(CatchMap.RelocateThing(this, CoordX, CoordY + DirectionY) == false) break;			
-		}
-		
-		
 	}
 	
 }
