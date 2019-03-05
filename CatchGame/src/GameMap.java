@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class GameMap {
+final public class GameMap {
 		
 	private ThingOnMap[][] CoordinateValue;
 	
